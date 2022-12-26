@@ -224,14 +224,21 @@ class CameraPlugin extends CameraPlatform {
       final Size videoSize = _cameraService
           .mapResolutionPresetToSize(resolutionPreset ?? ResolutionPreset.max);
 
+      final int videoBitrate = _cameraService
+          .mapResolutionPresetToVideoBitrate(resolutionPreset ?? ResolutionPreset.max);
+
+      final int audioBitrate = _cameraService
+          .mapResolutionPresetToAudioBitrate(resolutionPreset ?? ResolutionPreset.max);
+
       // Create a camera with the given audio and video constraints.
       // Sensor orientation is currently not supported.
       final Camera camera = Camera(
         textureId: textureId,
         cameraService: _cameraService,
         options: CameraOptions(
-          audio: AudioConstraints(enabled: enableAudio),
+          audio: AudioConstraints(enabled: enableAudio, bitrate: audioBitrate),
           video: VideoConstraints(
+            bitrate: videoBitrate,
             facingMode:
                 cameraType != null ? FacingModeConstraint(cameraType) : null,
             width: VideoSizeConstraint(
