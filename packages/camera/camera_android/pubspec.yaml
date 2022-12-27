@@ -19,8 +19,12 @@ flutter:
         dartPluginClass: AndroidCamera
 
 dependencies:
+
   camera_platform_interface:
-    path: ../camera_platform_interface
+    git:
+      url: https://github.com/mtbo-org/flutter-plugins.git
+      path: packages/camera/camera_platform_interface
+
   flutter:
     sdk: flutter
   flutter_plugin_android_lifecycle: ^2.0.2
