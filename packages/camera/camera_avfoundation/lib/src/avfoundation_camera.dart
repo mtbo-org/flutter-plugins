@@ -94,16 +94,17 @@ class AVFoundationCamera extends CameraPlatform {
   @override
   Future<int> createCamera(
     CameraDescription cameraDescription,
-    MediaSettings? mediaSettings, {
+    MediaSettings mediaSettings, {
     bool enableAudio = false,
   }) async {
     try {
       final Map<String, dynamic>? reply = await _channel
           .invokeMapMethod<String, dynamic>('create', <String, dynamic>{
         'cameraName': cameraDescription.name,
-        'mediaSettings': mediaSettings != null
-            ? _serializeMediaSettings(mediaSettings)
-            : null,
+        'resolutionPreset': _serializeResolutionPreset(mediaSettings.resolutionPreset),
+        'fps': mediaSettings.fps,
+        'videoBitrate': mediaSettings.videoBitrate,
+        'audioBitrate': mediaSettings.audioBitrate,
         'enableAudio': enableAudio,
       });
 
@@ -529,15 +530,6 @@ class AVFoundationCamera extends CameraPlatform {
       default:
         throw ArgumentError('Unknown FlashMode value');
     }
-  }
-
-  String _serializeMediaSettings(MediaSettings mediaSettings) {
-    return jsonEncode({
-      'preset': _serializeResolutionPreset(mediaSettings.resolutionPreset),
-      'fps': mediaSettings.fps,
-      'videoBitrate': mediaSettings.videoBitrate,
-      'audioBitrate': mediaSettings.audioBitrate,
-    });
   }
 
   /// Returns the resolution preset as a String.

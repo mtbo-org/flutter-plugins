@@ -41,6 +41,9 @@
                       AVCaptureAudioDataOutputSampleBufferDelegate>
 
 @property(readonly, nonatomic) int64_t textureId;
+@property NSNumber* fps;
+@property NSNumber* videoBitrate;
+@property NSNumber* audioBitrate;
 @property BOOL enableAudio;
 @property(nonatomic) FLTImageStreamHandler *imageStreamHandler;
 @property(readonly, nonatomic) AVCaptureSession *captureSession;
@@ -139,6 +142,20 @@ NSString *const errorMethod = @"error";
   _photoIOQueue = dispatch_queue_create("io.flutter.camera.photoIOQueue", NULL);
   _captureSession = captureSession;
   _captureDevice = [AVCaptureDevice deviceWithUniqueID:cameraName];
+    
+    AVFrameRateRange* range = _captureDevice.activeFormat.videoSupportedFrameRateRanges[0];
+    
+    [_captureSession beginConfiguration];
+    NSError* outError;
+    [_captureDevice lockForConfiguration:&outError];
+    _captureDevice.activeVideoMinFrameDuration = CMTimeMake(1, [_fps intValue]);
+    _captureDevice.activeVideoMaxFrameDuration = CMTimeMake(1, [_fps intValue]);
+    [_captureSession commitConfiguration];
+    [_captureDevice unlockForConfiguration];
+    
+    range = nil;
+
+    
   _flashMode = _captureDevice.hasFlash ? FLTFlashModeAuto : FLTFlashModeOff;
   _exposureMode = FLTExposureModeAuto;
   _focusMode = FLTFocusModeAuto;
@@ -163,13 +180,16 @@ NSString *const errorMethod = @"error";
 
   _captureVideoOutput = [AVCaptureVideoDataOutput new];
   _captureVideoOutput.videoSettings =
-      @{(NSString *)kCVPixelBufferPixelFormatTypeKey : @(_videoFormat)};
+      @{(NSString *)kCVPixelBufferPixelFormatTypeKey : @(_videoFormat),
+      };
   [_captureVideoOutput setAlwaysDiscardsLateVideoFrames:YES];
   [_captureVideoOutput setSampleBufferDelegate:self queue:captureSessionQueue];
+
 
   AVCaptureConnection *connection =
       [AVCaptureConnection connectionWithInputPorts:_captureVideoInput.ports
                                              output:_captureVideoOutput];
+    
 
   if ([_captureDevice position] == AVCaptureDevicePositionFront) {
     connection.videoMirrored = YES;
@@ -1050,8 +1070,12 @@ NSString *const errorMethod = @"error";
     return NO;
   }
 
-  NSDictionary *videoSettings = [_captureVideoOutput
-      recommendedVideoSettingsForAssetWriterWithOutputFileType:AVFileTypeMPEG4];
+  NSMutableDictionary *videoSettings = [[_captureVideoOutput
+                                  recommendedVideoSettingsForAssetWriterWithOutputFileType:AVFileTypeMPEG4] mutableCopy] ;
+    
+    videoSettings[AVVideoCompressionPropertiesKey] = @{AVVideoAverageBitRateKey:_videoBitrate, AVVideoExpectedSourceFrameRateKey :_fps};
+    
+    
   _videoWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo
                                                          outputSettings:videoSettings];
 
@@ -1077,6 +1101,7 @@ NSString *const errorMethod = @"error";
       AVSampleRateKey : [NSNumber numberWithFloat:44100.0],
       AVNumberOfChannelsKey : [NSNumber numberWithInt:1],
       AVChannelLayoutKey : [NSData dataWithBytes:&acl length:sizeof(acl)],
+      AVEncoderBitRateKey : _audioBitrate,
     };
     _audioWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio
                                                            outputSettings:audioOutputSettings];
