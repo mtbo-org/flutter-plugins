@@ -93,12 +93,18 @@ NSString *const errorMethod = @"error";
 
 - (instancetype)initWithCameraName:(NSString *)cameraName
                   resolutionPreset:(NSString *)resolutionPreset
+                               fps:(NSNumber *)fps
+                      videoBitrate:(NSNumber *)videoBitrate
+                      audioBitrate:(NSNumber *)audioBitrate
                        enableAudio:(BOOL)enableAudio
                        orientation:(UIDeviceOrientation)orientation
                captureSessionQueue:(dispatch_queue_t)captureSessionQueue
                              error:(NSError **)error {
   return [self initWithCameraName:cameraName
                  resolutionPreset:resolutionPreset
+                              fps:fps
+                     videoBitrate:videoBitrate
+                     audioBitrate:audioBitrate
                       enableAudio:enableAudio
                       orientation:orientation
                    captureSession:[[AVCaptureSession alloc] init]
@@ -108,6 +114,9 @@ NSString *const errorMethod = @"error";
 
 - (instancetype)initWithCameraName:(NSString *)cameraName
                   resolutionPreset:(NSString *)resolutionPreset
+                               fps:(NSNumber *)fps
+                      videoBitrate:(NSNumber *)videoBitrate
+                      audioBitrate:(NSNumber *)audioBitrate
                        enableAudio:(BOOL)enableAudio
                        orientation:(UIDeviceOrientation)orientation
                     captureSession:(AVCaptureSession *)captureSession
@@ -120,6 +129,9 @@ NSString *const errorMethod = @"error";
   } @catch (NSError *e) {
     *error = e;
   }
+  _fps = fps;
+  _videoBitrate = videoBitrate;
+  _audioBitrate = audioBitrate;
   _enableAudio = enableAudio;
   _captureSessionQueue = captureSessionQueue;
   _pixelBufferSynchronizationQueue =

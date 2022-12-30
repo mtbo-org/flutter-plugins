@@ -25,7 +25,12 @@ void main() {
             name: 'cam',
             lensDirection: CameraLensDirection.back,
             sensorOrientation: 90),
-        ResolutionPreset.max);
+        const MediaSettings(
+          resolutionPreset: ResolutionPreset.low,
+          fps: 15,
+          videoBitrate: 200000,
+          audioBitrate: 32000,
+        ));
 
     expect(
       () => cameraController.startImageStream((CameraImage image) => null),
@@ -52,7 +57,12 @@ void main() {
             name: 'cam',
             lensDirection: CameraLensDirection.back,
             sensorOrientation: 90),
-        ResolutionPreset.max);
+        const MediaSettings(
+          resolutionPreset: ResolutionPreset.low,
+          fps: 15,
+          videoBitrate: 200000,
+          audioBitrate: 32000,
+        ));
 
     await cameraController.initialize();
 
@@ -75,7 +85,12 @@ void main() {
             name: 'cam',
             lensDirection: CameraLensDirection.back,
             sensorOrientation: 90),
-        ResolutionPreset.max);
+        const MediaSettings(
+          resolutionPreset: ResolutionPreset.low,
+          fps: 15,
+          videoBitrate: 200000,
+          audioBitrate: 32000,
+        ));
     await cameraController.initialize();
 
     cameraController.value =
@@ -95,7 +110,12 @@ void main() {
             name: 'cam',
             lensDirection: CameraLensDirection.back,
             sensorOrientation: 90),
-        ResolutionPreset.max);
+        const MediaSettings(
+          resolutionPreset: ResolutionPreset.low,
+          fps: 15,
+          videoBitrate: 200000,
+          audioBitrate: 32000,
+        ));
     await cameraController.initialize();
 
     await cameraController.startImageStream((CameraImage image) => null);
@@ -110,7 +130,12 @@ void main() {
             name: 'cam',
             lensDirection: CameraLensDirection.back,
             sensorOrientation: 90),
-        ResolutionPreset.max);
+        const MediaSettings(
+          resolutionPreset: ResolutionPreset.low,
+          fps: 15,
+          videoBitrate: 200000,
+          audioBitrate: 32000,
+        ));
 
     expect(
       cameraController.stopImageStream,
@@ -137,7 +162,12 @@ void main() {
             name: 'cam',
             lensDirection: CameraLensDirection.back,
             sensorOrientation: 90),
-        ResolutionPreset.max);
+        const MediaSettings(
+          resolutionPreset: ResolutionPreset.low,
+          fps: 15,
+          videoBitrate: 200000,
+          audioBitrate: 32000,
+        ));
     await cameraController.initialize();
 
     await cameraController.startImageStream((CameraImage image) => null);
@@ -159,7 +189,12 @@ void main() {
             name: 'cam',
             lensDirection: CameraLensDirection.back,
             sensorOrientation: 90),
-        ResolutionPreset.max);
+        const MediaSettings(
+          resolutionPreset: ResolutionPreset.low,
+          fps: 15,
+          videoBitrate: 200000,
+          audioBitrate: 32000,
+        ));
     await cameraController.initialize();
 
     expect(
@@ -177,7 +212,12 @@ void main() {
             name: 'cam',
             lensDirection: CameraLensDirection.back,
             sensorOrientation: 90),
-        ResolutionPreset.max);
+        const MediaSettings(
+          resolutionPreset: ResolutionPreset.low,
+          fps: 15,
+          videoBitrate: 200000,
+          audioBitrate: 32000,
+        ));
     await cameraController.initialize();
     await cameraController.startImageStream((CameraImage image) => null);
     await cameraController.stopImageStream();
