@@ -652,7 +652,7 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
       cameraDescription,
       MediaSettings(
         resolutionPreset: ResolutionPreset.low,
-        fps: 15,
+        fps: 5,
         videoBitrate: 200000,
         audioBitrate: 32000,
       ),

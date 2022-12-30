@@ -20,6 +20,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+dependency_overrides:
+  camera_windows:
+    path: ..
+  camera_platform_interface:
+    path: ../../camera_platform_interface
+
 dev_dependencies:
   async: ^2.5.0
   flutter_test:
