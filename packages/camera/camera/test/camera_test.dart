@@ -61,7 +61,12 @@ void main() {
       const MockCameraDescription description = MockCameraDescription();
       final CameraController controller = CameraController(
         description,
-        ResolutionPreset.low,
+        const MediaSettings(
+          resolutionPreset: ResolutionPreset.low,
+          fps: 15,
+          videoBitrate: 200000,
+          audioBitrate: 32000,
+        ),
       );
 
       controller.dispose();
@@ -74,7 +79,12 @@ void main() {
       const MockCameraDescription description = MockCameraDescription();
       final CameraController controller = CameraController(
         description,
-        ResolutionPreset.low,
+        const MediaSettings(
+          resolutionPreset: ResolutionPreset.low,
+          fps: 15,
+          videoBitrate: 200000,
+          audioBitrate: 32000,
+        ),
       );
 
       expect(
@@ -103,7 +113,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       expect(cameraController.value.aspectRatio, 1);
@@ -117,7 +132,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       expect(cameraController.value.aspectRatio, 1);
@@ -135,7 +155,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       expect(cameraController.value.aspectRatio, 1);
@@ -162,7 +187,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
 
       mockPlatformException = true;
 
@@ -183,7 +213,12 @@ void main() {
             name: 'cam',
             lensDirection: CameraLensDirection.back,
             sensorOrientation: 90),
-        ResolutionPreset.max,
+        const MediaSettings(
+          resolutionPreset: ResolutionPreset.low,
+          fps: 15,
+          videoBitrate: 200000,
+          audioBitrate: 32000,
+        ),
         imageFormatGroup: ImageFormatGroup.yuv420,
       );
       await cameraController.initialize();
@@ -198,7 +233,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       await cameraController.prepareForVideoRecording();
@@ -212,7 +252,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       expect(
         cameraController.takePicture(),
         throwsA(
@@ -238,7 +283,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       cameraController.value =
@@ -258,7 +308,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
       final XFile xFile = await cameraController.takePicture();
 
@@ -272,7 +327,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       mockPlatformException = true;
@@ -293,7 +353,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
 
       expect(
         cameraController.startVideoRecording(),
@@ -319,7 +384,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
 
       await cameraController.initialize();
 
@@ -343,7 +413,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
 
       await cameraController.initialize();
 
@@ -366,7 +441,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
 
       expect(
         cameraController.getMaxZoomLevel,
@@ -392,7 +472,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
 
       await cameraController.initialize();
       await cameraController.dispose();
@@ -423,7 +508,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
 
       await cameraController.initialize();
       when(CameraPlatform.instance.getMaxZoomLevel(mockInitializeCamera))
@@ -450,7 +540,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
 
       await cameraController.initialize();
       when(CameraPlatform.instance.getMaxZoomLevel(mockInitializeCamera))
@@ -467,7 +562,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
 
       expect(
         cameraController.getMinZoomLevel,
@@ -493,7 +593,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
 
       await cameraController.initialize();
       await cameraController.dispose();
@@ -524,7 +629,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
 
       await cameraController.initialize();
       when(CameraPlatform.instance.getMinZoomLevel(mockInitializeCamera))
@@ -551,7 +661,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
 
       await cameraController.initialize();
       when(CameraPlatform.instance.getMinZoomLevel(mockInitializeCamera))
@@ -567,7 +682,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
 
       expect(
         () => cameraController.setZoomLevel(42.0),
@@ -593,7 +713,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
 
       await cameraController.initialize();
       await cameraController.dispose();
@@ -624,7 +749,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
 
       await cameraController.initialize();
       when(CameraPlatform.instance.setZoomLevel(mockInitializeCamera, 42.0))
@@ -655,7 +785,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
 
       await cameraController.initialize();
       await cameraController.setZoomLevel(42.0);
@@ -670,7 +805,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       await cameraController.setFlashMode(FlashMode.always);
@@ -687,7 +827,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       when(CameraPlatform.instance
@@ -714,7 +859,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       await cameraController.setExposureMode(ExposureMode.auto);
@@ -731,7 +881,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       when(CameraPlatform.instance
@@ -758,7 +913,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       await cameraController.setExposurePoint(const Offset(0.5, 0.5));
@@ -775,7 +935,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       when(CameraPlatform.instance.setExposurePoint(
@@ -802,7 +967,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       when(CameraPlatform.instance
@@ -823,7 +993,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       when(CameraPlatform.instance
@@ -850,7 +1025,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       when(CameraPlatform.instance
@@ -871,7 +1051,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       when(CameraPlatform.instance
@@ -898,7 +1083,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       when(CameraPlatform.instance
@@ -920,7 +1110,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       when(CameraPlatform.instance
@@ -947,7 +1142,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
       when(CameraPlatform.instance
               .getMinExposureOffset(cameraController.cameraId))
@@ -976,7 +1176,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
       when(CameraPlatform.instance
               .getMinExposureOffset(cameraController.cameraId))
@@ -1013,7 +1218,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
       when(CameraPlatform.instance
               .getMinExposureOffset(cameraController.cameraId))
@@ -1070,7 +1280,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
       when(CameraPlatform.instance
               .getMinExposureOffset(cameraController.cameraId))
@@ -1144,7 +1359,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
       cameraController.value = cameraController.value
           .copyWith(deviceOrientation: DeviceOrientation.portraitUp);
@@ -1165,7 +1385,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
       cameraController.value =
           cameraController.value.copyWith(isPreviewPaused: true);
@@ -1185,7 +1410,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
       cameraController.value = cameraController.value.copyWith(
           isPreviewPaused: false,
@@ -1207,7 +1437,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
       when(CameraPlatform.instance.pausePreview(cameraController.cameraId))
           .thenThrow(
@@ -1232,7 +1467,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
       cameraController.value =
           cameraController.value.copyWith(isPreviewPaused: true);
@@ -1251,7 +1491,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
       cameraController.value =
           cameraController.value.copyWith(isPreviewPaused: false);
@@ -1270,7 +1515,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
       cameraController.value =
           cameraController.value.copyWith(isPreviewPaused: true);
@@ -1297,7 +1547,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       await cameraController.lockCaptureOrientation();
@@ -1324,7 +1579,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
       when(CameraPlatform.instance.lockCaptureOrientation(
               cameraController.cameraId, DeviceOrientation.portraitUp))
@@ -1350,7 +1610,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
 
       await cameraController.unlockCaptureOrientation();
@@ -1369,7 +1634,12 @@ void main() {
               name: 'cam',
               lensDirection: CameraLensDirection.back,
               sensorOrientation: 90),
-          ResolutionPreset.max);
+          const MediaSettings(
+            resolutionPreset: ResolutionPreset.low,
+            fps: 15,
+            videoBitrate: 200000,
+            audioBitrate: 32000,
+          ));
       await cameraController.initialize();
       when(CameraPlatform.instance
               .unlockCaptureOrientation(cameraController.cameraId))

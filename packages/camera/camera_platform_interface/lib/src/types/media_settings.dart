@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes
+
 import 'package:camera_platform_interface/src/types/resolution_preset.dart';
 
 /// recording media settings.
@@ -12,10 +14,34 @@ class MediaSettings {
 
   /// resolution preset
   final ResolutionPreset resolutionPreset;
-  // camera fps
+
+  /// camera fps
   final int fps;
-  // recording video bitrate
+
+  /// recording video bitrate
   final int videoBitrate;
-  // recording audio bitrate
+
+  /// recording audio bitrate
   final int audioBitrate;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is MediaSettings &&
+          runtimeType == other.runtimeType &&
+          resolutionPreset == other.resolutionPreset &&
+          fps == other.fps &&
+          videoBitrate == other.videoBitrate &&
+          audioBitrate == other.audioBitrate;
+
+  @override
+  int get hashCode =>
+      resolutionPreset.hashCode ^
+      fps.hashCode ^
+      videoBitrate.hashCode ^
+      audioBitrate.hashCode;
+
+  @override
+  String toString() =>
+      'MediaSettings{resolutionPreset: $resolutionPreset, fps: $fps, videoBitrate: $videoBitrate, audioBitrate: $audioBitrate}';
 }

@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
@@ -86,15 +87,15 @@ class MethodChannelCamera extends CameraPlatform {
   @override
   Future<int> createCamera(
     CameraDescription cameraDescription,
-    ResolutionPreset? resolutionPreset, {
+    MediaSettings? mediaSettings, {
     bool enableAudio = false,
   }) async {
     try {
       final Map<String, dynamic>? reply = await _channel
           .invokeMapMethod<String, dynamic>('create', <String, dynamic>{
         'cameraName': cameraDescription.name,
-        'resolutionPreset': resolutionPreset != null
-            ? _serializeResolutionPreset(resolutionPreset)
+        'mediaSettings': mediaSettings != null
+            ? _serializeMediaSettings(mediaSettings)
             : null,
         'enableAudio': enableAudio,
       });
@@ -522,6 +523,16 @@ class MethodChannelCamera extends CameraPlatform {
       default:
         throw ArgumentError('Unknown FlashMode value');
     }
+  }
+
+  /// Returns the resolution preset as a String.
+  String _serializeMediaSettings(MediaSettings mediaSettings) {
+    return jsonEncode({
+      'preset': _serializeResolutionPreset(mediaSettings.resolutionPreset),
+      'fps': mediaSettings.fps,
+      'videoBitrate': mediaSettings.videoBitrate,
+      'audioBitrate': mediaSettings.audioBitrate,
+    });
   }
 
   /// Returns the resolution preset as a String.

@@ -235,7 +235,7 @@ class CameraController extends ValueNotifier<CameraValue> {
   /// if unavailable a lower resolution will be used.
   ///
   /// See also: [ResolutionPreset].
-  final MediaSettings resolutionPreset;
+  final MediaSettings mediaSettings;
 
   /// Whether to include audio when recording a video.
   final bool enableAudio;
@@ -290,7 +290,7 @@ class CameraController extends ValueNotifier<CameraValue> {
 
       _cameraId = await CameraPlatform.instance.createCamera(
         description,
-        resolutionPreset,
+        mediaSettings,
         enableAudio: enableAudio,
       );
 
