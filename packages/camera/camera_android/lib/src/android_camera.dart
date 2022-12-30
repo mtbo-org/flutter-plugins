@@ -94,7 +94,7 @@ class AndroidCamera extends CameraPlatform {
   @override
   Future<int> createCamera(
     CameraDescription cameraDescription,
-    MediaSettings? mediaSettings, {
+    MediaSettings mediaSettings, {
     bool enableAudio = false,
   }) async {
     try {

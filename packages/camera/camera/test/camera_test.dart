@@ -1689,7 +1689,7 @@ class MockCameraPlatform extends Mock
   @override
   Future<int> createCamera(
     CameraDescription description,
-    MediaSettings? mediaSettings, {
+    MediaSettings mediaSettings, {
     bool enableAudio = false,
   }) =>
       mockPlatformException
