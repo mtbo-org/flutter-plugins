@@ -12,6 +12,14 @@ class MediaSettings {
     required this.audioBitrate,
   });
 
+  /// Default low quality factory
+  factory MediaSettings.low() => const MediaSettings(
+        resolutionPreset: ResolutionPreset.low,
+        fps: 15,
+        videoBitrate: 200000,
+        audioBitrate: 32000,
+      );
+
   /// resolution preset
   final ResolutionPreset resolutionPreset;
 
@@ -36,10 +44,7 @@ class MediaSettings {
 
   @override
   int get hashCode =>
-      resolutionPreset.hashCode ^
-      fps.hashCode ^
-      videoBitrate.hashCode ^
-      audioBitrate.hashCode;
+      resolutionPreset.hashCode ^ fps.hashCode ^ videoBitrate.hashCode ^ audioBitrate.hashCode;
 
   @override
   String toString() =>

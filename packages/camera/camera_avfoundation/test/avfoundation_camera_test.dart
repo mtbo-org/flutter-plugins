@@ -37,8 +37,7 @@ void main() {
         .handlePlatformMessage(
             AVFoundationCamera.deviceEventChannelName,
             const StandardMethodCodec().encodeMethodCall(const MethodCall(
-                'orientation_changed',
-                <String, Object>{'orientation': 'portraitDown'})),
+                'orientation_changed', <String, Object>{'orientation': 'portraitDown'})),
             (ByteData? data) {});
     expect(response, null);
   });
@@ -46,23 +45,20 @@ void main() {
   group('Creation, Initialization & Disposal Tests', () {
     test('Should send creation data and receive back a camera id', () async {
       // Arrange
-      final MethodChannelMock cameraMockChannel = MethodChannelMock(
-          channelName: _channelName,
-          methods: <String, dynamic>{
-            'create': <String, dynamic>{
-              'cameraId': 1,
-              'imageFormatGroup': 'unknown',
-            }
-          });
+      final MethodChannelMock cameraMockChannel =
+          MethodChannelMock(channelName: _channelName, methods: <String, dynamic>{
+        'create': <String, dynamic>{
+          'cameraId': 1,
+          'imageFormatGroup': 'unknown',
+        }
+      });
       final AVFoundationCamera camera = AVFoundationCamera();
 
       // Act
       final int cameraId = await camera.createCamera(
         const CameraDescription(
-            name: 'Test',
-            lensDirection: CameraLensDirection.back,
-            sensorOrientation: 0),
-        ResolutionPreset.high,
+            name: 'Test', lensDirection: CameraLensDirection.back, sensorOrientation: 0),
+        MediaSettings.low(),
       );
 
       // Assert
@@ -79,8 +75,7 @@ void main() {
       expect(cameraId, 1);
     });
 
-    test('Should throw CameraException when create throws a PlatformException',
-        () {
+    test('Should throw CameraException when create throws a PlatformException', () {
       // Arrange
       MethodChannelMock(channelName: _channelName, methods: <String, dynamic>{
         'create': PlatformException(
@@ -98,20 +93,18 @@ void main() {
             lensDirection: CameraLensDirection.back,
             sensorOrientation: 0,
           ),
-          ResolutionPreset.high,
+          MediaSettings.low(),
         ),
         throwsA(
           isA<CameraException>()
-              .having(
-                  (CameraException e) => e.code, 'code', 'TESTING_ERROR_CODE')
+              .having((CameraException e) => e.code, 'code', 'TESTING_ERROR_CODE')
               .having((CameraException e) => e.description, 'description',
                   'Mock error message used during testing.'),
         ),
       );
     });
 
-    test('Should throw CameraException when create throws a PlatformException',
-        () {
+    test('Should throw CameraException when create throws a PlatformException', () {
       // Arrange
       MethodChannelMock(channelName: _channelName, methods: <String, dynamic>{
         'create': PlatformException(
@@ -133,8 +126,7 @@ void main() {
         ),
         throwsA(
           isA<CameraException>()
-              .having(
-                  (CameraException e) => e.code, 'code', 'TESTING_ERROR_CODE')
+              .having((CameraException e) => e.code, 'code', 'TESTING_ERROR_CODE')
               .having((CameraException e) => e.description, 'description',
                   'Mock error message used during testing.'),
         ),
@@ -161,8 +153,7 @@ void main() {
           () => camera.initializeCamera(0),
           throwsA(
             isA<CameraException>()
-                .having(
-                    (CameraException e) => e.code, 'code', 'TESTING_ERROR_CODE')
+                .having((CameraException e) => e.code, 'code', 'TESTING_ERROR_CODE')
                 .having(
                   (CameraException e) => e.description,
                   'description',
@@ -175,15 +166,14 @@ void main() {
 
     test('Should send initialization data', () async {
       // Arrange
-      final MethodChannelMock cameraMockChannel = MethodChannelMock(
-          channelName: _channelName,
-          methods: <String, dynamic>{
-            'create': <String, dynamic>{
-              'cameraId': 1,
-              'imageFormatGroup': 'unknown',
-            },
-            'initialize': null
-          });
+      final MethodChannelMock cameraMockChannel =
+          MethodChannelMock(channelName: _channelName, methods: <String, dynamic>{
+        'create': <String, dynamic>{
+          'cameraId': 1,
+          'imageFormatGroup': 'unknown',
+        },
+        'initialize': null
+      });
       final AVFoundationCamera camera = AVFoundationCamera();
       final int cameraId = await camera.createCamera(
         const CameraDescription(
@@ -223,13 +213,12 @@ void main() {
 
     test('Should send a disposal call on dispose', () async {
       // Arrange
-      final MethodChannelMock cameraMockChannel = MethodChannelMock(
-          channelName: _channelName,
-          methods: <String, dynamic>{
-            'create': <String, dynamic>{'cameraId': 1},
-            'initialize': null,
-            'dispose': <String, dynamic>{'cameraId': 1}
-          });
+      final MethodChannelMock cameraMockChannel =
+          MethodChannelMock(channelName: _channelName, methods: <String, dynamic>{
+        'create': <String, dynamic>{'cameraId': 1},
+        'initialize': null,
+        'dispose': <String, dynamic>{'cameraId': 1}
+      });
 
       final AVFoundationCamera camera = AVFoundationCamera();
       final int cameraId = await camera.createCamera(
@@ -303,8 +292,7 @@ void main() {
 
     test('Should receive initialized event', () async {
       // Act
-      final Stream<CameraInitializedEvent> eventStream =
-          camera.onCameraInitialized(cameraId);
+      final Stream<CameraInitializedEvent> eventStream = camera.onCameraInitialized(cameraId);
       final StreamQueue<CameraInitializedEvent> streamQueue =
           StreamQueue<CameraInitializedEvent>(eventStream);
 
@@ -318,8 +306,7 @@ void main() {
         FocusMode.auto,
         true,
       );
-      await camera.handleCameraMethodCall(
-          MethodCall('initialized', event.toJson()), cameraId);
+      await camera.handleCameraMethodCall(MethodCall('initialized', event.toJson()), cameraId);
 
       // Assert
       expect(await streamQueue.next, event);
@@ -361,19 +348,15 @@ void main() {
 
     test('Should receive camera closing events', () async {
       // Act
-      final Stream<CameraClosingEvent> eventStream =
-          camera.onCameraClosing(cameraId);
+      final Stream<CameraClosingEvent> eventStream = camera.onCameraClosing(cameraId);
       final StreamQueue<CameraClosingEvent> streamQueue =
           StreamQueue<CameraClosingEvent>(eventStream);
 
       // Emit test events
       final CameraClosingEvent event = CameraClosingEvent(cameraId);
-      await camera.handleCameraMethodCall(
-          MethodCall('camera_closing', event.toJson()), cameraId);
-      await camera.handleCameraMethodCall(
-          MethodCall('camera_closing', event.toJson()), cameraId);
-      await camera.handleCameraMethodCall(
-          MethodCall('camera_closing', event.toJson()), cameraId);
+      await camera.handleCameraMethodCall(MethodCall('camera_closing', event.toJson()), cameraId);
+      await camera.handleCameraMethodCall(MethodCall('camera_closing', event.toJson()), cameraId);
+      await camera.handleCameraMethodCall(MethodCall('camera_closing', event.toJson()), cameraId);
 
       // Assert
       expect(await streamQueue.next, event);
@@ -386,20 +369,14 @@ void main() {
 
     test('Should receive camera error events', () async {
       // Act
-      final Stream<CameraErrorEvent> errorStream =
-          camera.onCameraError(cameraId);
-      final StreamQueue<CameraErrorEvent> streamQueue =
-          StreamQueue<CameraErrorEvent>(errorStream);
+      final Stream<CameraErrorEvent> errorStream = camera.onCameraError(cameraId);
+      final StreamQueue<CameraErrorEvent> streamQueue = StreamQueue<CameraErrorEvent>(errorStream);
 
       // Emit test events
-      final CameraErrorEvent event =
-          CameraErrorEvent(cameraId, 'Error Description');
-      await camera.handleCameraMethodCall(
-          MethodCall('error', event.toJson()), cameraId);
-      await camera.handleCameraMethodCall(
-          MethodCall('error', event.toJson()), cameraId);
-      await camera.handleCameraMethodCall(
-          MethodCall('error', event.toJson()), cameraId);
+      final CameraErrorEvent event = CameraErrorEvent(cameraId, 'Error Description');
+      await camera.handleCameraMethodCall(MethodCall('error', event.toJson()), cameraId);
+      await camera.handleCameraMethodCall(MethodCall('error', event.toJson()), cameraId);
+      await camera.handleCameraMethodCall(MethodCall('error', event.toJson()), cameraId);
 
       // Assert
       expect(await streamQueue.next, event);
@@ -412,8 +389,7 @@ void main() {
 
     test('Should receive device orientation change events', () async {
       // Act
-      final Stream<DeviceOrientationChangedEvent> eventStream =
-          camera.onDeviceOrientationChanged();
+      final Stream<DeviceOrientationChangedEvent> eventStream = camera.onDeviceOrientationChanged();
       final StreamQueue<DeviceOrientationChangedEvent> streamQueue =
           StreamQueue<DeviceOrientationChangedEvent>(eventStream);
 
@@ -424,8 +400,8 @@ void main() {
         await TestDefaultBinaryMessengerBinding.instance!.defaultBinaryMessenger
             .handlePlatformMessage(
                 AVFoundationCamera.deviceEventChannelName,
-                const StandardMethodCodec().encodeMethodCall(
-                    MethodCall('orientation_changed', event.toJson())),
+                const StandardMethodCodec()
+                    .encodeMethodCall(MethodCall('orientation_changed', event.toJson())),
                 null);
       }
 
@@ -475,20 +451,11 @@ void main() {
       await initializeFuture;
     });
 
-    test('Should fetch CameraDescription instances for available cameras',
-        () async {
+    test('Should fetch CameraDescription instances for available cameras', () async {
       // Arrange
       final List<dynamic> returnData = <dynamic>[
-        <String, dynamic>{
-          'name': 'Test 1',
-          'lensFacing': 'front',
-          'sensorOrientation': 1
-        },
-        <String, dynamic>{
-          'name': 'Test 2',
-          'lensFacing': 'back',
-          'sensorOrientation': 2
-        }
+        <String, dynamic>{'name': 'Test 1', 'lensFacing': 'front', 'sensorOrientation': 1},
+        <String, dynamic>{'name': 'Test 2', 'lensFacing': 'back', 'sensorOrientation': 2}
       ];
       final MethodChannelMock channel = MethodChannelMock(
         channelName: _channelName,
@@ -506,17 +473,14 @@ void main() {
       for (int i = 0; i < returnData.length; i++) {
         final CameraDescription cameraDescription = CameraDescription(
           name: returnData[i]['name']! as String,
-          lensDirection:
-              parseCameraLensDirection(returnData[i]['lensFacing']! as String),
+          lensDirection: parseCameraLensDirection(returnData[i]['lensFacing']! as String),
           sensorOrientation: returnData[i]['sensorOrientation']! as int,
         );
         expect(cameras[i], cameraDescription);
       }
     });
 
-    test(
-        'Should throw CameraException when availableCameras throws a PlatformException',
-        () {
+    test('Should throw CameraException when availableCameras throws a PlatformException', () {
       // Arrange
       MethodChannelMock(channelName: _channelName, methods: <String, dynamic>{
         'availableCameras': PlatformException(
@@ -530,8 +494,7 @@ void main() {
         camera.availableCameras,
         throwsA(
           isA<CameraException>()
-              .having(
-                  (CameraException e) => e.code, 'code', 'TESTING_ERROR_CODE')
+              .having((CameraException e) => e.code, 'code', 'TESTING_ERROR_CODE')
               .having((CameraException e) => e.description, 'description',
                   'Mock error message used during testing.'),
         ),
@@ -541,8 +504,7 @@ void main() {
     test('Should take a picture and return an XFile instance', () async {
       // Arrange
       final MethodChannelMock channel = MethodChannelMock(
-          channelName: _channelName,
-          methods: <String, dynamic>{'takePicture': '/test/path.jpg'});
+          channelName: _channelName, methods: <String, dynamic>{'takePicture': '/test/path.jpg'});
 
       // Act
       final XFile file = await camera.takePicture(cameraId);
@@ -592,8 +554,7 @@ void main() {
       ]);
     });
 
-    test('Should pass maxVideoDuration when starting recording a video',
-        () async {
+    test('Should pass maxVideoDuration when starting recording a video', () async {
       // Arrange
       final MethodChannelMock channel = MethodChannelMock(
         channelName: _channelName,
@@ -616,8 +577,7 @@ void main() {
       ]);
     });
 
-    test(
-        'Should pass enableStream if callback is passed when starting recording a video',
+    test('Should pass enableStream if callback is passed when starting recording a video',
         () async {
       // Arrange
       final MethodChannelMock channel = MethodChannelMock(
@@ -626,8 +586,8 @@ void main() {
       );
 
       // Act
-      await camera.startVideoCapturing(VideoCaptureOptions(cameraId,
-          streamCallback: (CameraImageData imageData) {}));
+      await camera.startVideoCapturing(
+          VideoCaptureOptions(cameraId, streamCallback: (CameraImageData imageData) {}));
 
       // Assert
       expect(channel.log, <Matcher>[
@@ -709,14 +669,10 @@ void main() {
 
       // Assert
       expect(channel.log, <Matcher>[
-        isMethodCall('setFlashMode', arguments: <String, Object?>{
-          'cameraId': cameraId,
-          'mode': 'torch'
-        }),
-        isMethodCall('setFlashMode', arguments: <String, Object?>{
-          'cameraId': cameraId,
-          'mode': 'always'
-        }),
+        isMethodCall('setFlashMode',
+            arguments: <String, Object?>{'cameraId': cameraId, 'mode': 'torch'}),
+        isMethodCall('setFlashMode',
+            arguments: <String, Object?>{'cameraId': cameraId, 'mode': 'always'}),
         isMethodCall('setFlashMode',
             arguments: <String, Object?>{'cameraId': cameraId, 'mode': 'auto'}),
         isMethodCall('setFlashMode',
@@ -739,10 +695,8 @@ void main() {
       expect(channel.log, <Matcher>[
         isMethodCall('setExposureMode',
             arguments: <String, Object?>{'cameraId': cameraId, 'mode': 'auto'}),
-        isMethodCall('setExposureMode', arguments: <String, Object?>{
-          'cameraId': cameraId,
-          'mode': 'locked'
-        }),
+        isMethodCall('setExposureMode',
+            arguments: <String, Object?>{'cameraId': cameraId, 'mode': 'locked'}),
       ]);
     });
 
@@ -759,12 +713,8 @@ void main() {
 
       // Assert
       expect(channel.log, <Matcher>[
-        isMethodCall('setExposurePoint', arguments: <String, Object?>{
-          'cameraId': cameraId,
-          'x': 0.5,
-          'y': 0.5,
-          'reset': false
-        }),
+        isMethodCall('setExposurePoint',
+            arguments: <String, Object?>{'cameraId': cameraId, 'x': 0.5, 'y': 0.5, 'reset': false}),
         isMethodCall('setExposurePoint', arguments: <String, Object?>{
           'cameraId': cameraId,
           'x': null,
@@ -782,8 +732,7 @@ void main() {
       );
 
       // Act
-      final double minExposureOffset =
-          await camera.getMinExposureOffset(cameraId);
+      final double minExposureOffset = await camera.getMinExposureOffset(cameraId);
 
       // Assert
       expect(minExposureOffset, 2.0);
@@ -802,8 +751,7 @@ void main() {
       );
 
       // Act
-      final double maxExposureOffset =
-          await camera.getMaxExposureOffset(cameraId);
+      final double maxExposureOffset = await camera.getMaxExposureOffset(cameraId);
 
       // Assert
       expect(maxExposureOffset, 2.0);
@@ -868,10 +816,8 @@ void main() {
       expect(channel.log, <Matcher>[
         isMethodCall('setFocusMode',
             arguments: <String, Object?>{'cameraId': cameraId, 'mode': 'auto'}),
-        isMethodCall('setFocusMode', arguments: <String, Object?>{
-          'cameraId': cameraId,
-          'mode': 'locked'
-        }),
+        isMethodCall('setFocusMode',
+            arguments: <String, Object?>{'cameraId': cameraId, 'mode': 'locked'}),
       ]);
     });
 
@@ -888,12 +834,8 @@ void main() {
 
       // Assert
       expect(channel.log, <Matcher>[
-        isMethodCall('setFocusPoint', arguments: <String, Object?>{
-          'cameraId': cameraId,
-          'x': 0.5,
-          'y': 0.5,
-          'reset': false
-        }),
+        isMethodCall('setFocusPoint',
+            arguments: <String, Object?>{'cameraId': cameraId, 'x': 0.5, 'y': 0.5, 'reset': false}),
         isMethodCall('setFocusPoint', arguments: <String, Object?>{
           'cameraId': cameraId,
           'x': null,
@@ -912,13 +854,10 @@ void main() {
       expect((widget as Texture).textureId, cameraId);
     });
 
-    test('Should throw MissingPluginException when handling unknown method',
-        () {
+    test('Should throw MissingPluginException when handling unknown method', () {
       final AVFoundationCamera camera = AVFoundationCamera();
 
-      expect(
-          () => camera.handleCameraMethodCall(
-              const MethodCall('unknown_method'), 1),
+      expect(() => camera.handleCameraMethodCall(const MethodCall('unknown_method'), 1),
           throwsA(isA<MissingPluginException>()));
     });
 
@@ -977,8 +916,7 @@ void main() {
       ]);
     });
 
-    test('Should throw CameraException when illegal zoom level is supplied',
-        () async {
+    test('Should throw CameraException when illegal zoom level is supplied', () async {
       // Arrange
       MethodChannelMock(
         channelName: _channelName,
@@ -995,8 +933,7 @@ void main() {
           () => camera.setZoomLevel(cameraId, -1.0),
           throwsA(isA<CameraException>()
               .having((CameraException e) => e.code, 'code', 'ZOOM_ERROR')
-              .having((CameraException e) => e.description, 'description',
-                  'Illegal zoom error')));
+              .having((CameraException e) => e.description, 'description', 'Illegal zoom error')));
     });
 
     test('Should lock the capture orientation', () async {
@@ -1007,15 +944,12 @@ void main() {
       );
 
       // Act
-      await camera.lockCaptureOrientation(
-          cameraId, DeviceOrientation.portraitUp);
+      await camera.lockCaptureOrientation(cameraId, DeviceOrientation.portraitUp);
 
       // Assert
       expect(channel.log, <Matcher>[
-        isMethodCall('lockCaptureOrientation', arguments: <String, Object?>{
-          'cameraId': cameraId,
-          'orientation': 'portraitUp'
-        }),
+        isMethodCall('lockCaptureOrientation',
+            arguments: <String, Object?>{'cameraId': cameraId, 'orientation': 'portraitUp'}),
       ]);
     });
 
@@ -1048,8 +982,7 @@ void main() {
 
       // Assert
       expect(channel.log, <Matcher>[
-        isMethodCall('pausePreview',
-            arguments: <String, Object?>{'cameraId': cameraId}),
+        isMethodCall('pausePreview', arguments: <String, Object?>{'cameraId': cameraId}),
       ]);
     });
 
@@ -1065,8 +998,7 @@ void main() {
 
       // Assert
       expect(channel.log, <Matcher>[
-        isMethodCall('resumePreview',
-            arguments: <String, Object?>{'cameraId': cameraId}),
+        isMethodCall('resumePreview', arguments: <String, Object?>{'cameraId': cameraId}),
       ]);
     });
 
@@ -1081,9 +1013,8 @@ void main() {
       );
 
       // Act
-      final StreamSubscription<CameraImageData> subscription = camera
-          .onStreamedFrameAvailable(cameraId)
-          .listen((CameraImageData imageData) {});
+      final StreamSubscription<CameraImageData> subscription =
+          camera.onStreamedFrameAvailable(cameraId).listen((CameraImageData imageData) {});
 
       // Assert
       expect(channel.log, <Matcher>[
@@ -1104,9 +1035,8 @@ void main() {
       );
 
       // Act
-      final StreamSubscription<CameraImageData> subscription = camera
-          .onStreamedFrameAvailable(cameraId)
-          .listen((CameraImageData imageData) {});
+      final StreamSubscription<CameraImageData> subscription =
+          camera.onStreamedFrameAvailable(cameraId).listen((CameraImageData imageData) {});
       subscription.cancel();
 
       // Assert
