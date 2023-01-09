@@ -208,7 +208,12 @@ class CameraController extends ValueNotifier<CameraValue> {
 
     _cameraId = await CameraPlatform.instance.createCamera(
       description,
-      MediaSettings.low(),
+      const MediaSettings(
+        resolutionPreset: ResolutionPreset.low,
+        fps: 30,
+        videoBitrate: 600000,
+        audioBitrate: 32000,
+      ),
       enableAudio: enableAudio,
     );
 

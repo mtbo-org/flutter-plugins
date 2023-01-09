@@ -8,6 +8,8 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.media.CamcorderProfile;
 import android.media.EncoderProfiles;
+import android.media.MediaCodecInfo;
+import android.media.MediaRecorder;
 import android.os.Build;
 import android.util.Size;
 import androidx.annotation.VisibleForTesting;
@@ -114,6 +116,7 @@ public class ResolutionFeature extends CameraFeature<ResolutionPreset> {
     if (preset.ordinal() > ResolutionPreset.high.ordinal()) {
       preset = ResolutionPreset.high;
     }
+
     if (Build.VERSION.SDK_INT >= 31) {
       EncoderProfiles profile =
           getBestAvailableCamcorderProfileForResolutionPreset(cameraId, preset);
@@ -241,6 +244,11 @@ public class ResolutionFeature extends CameraFeature<ResolutionPreset> {
       List<EncoderProfiles.VideoProfile> videoProfiles = recordingProfile.getVideoProfiles();
 
       EncoderProfiles.VideoProfile defaultVideoProfile = videoProfiles.get(0);
+
+//      if (null == defaultVideoProfile) {
+//        defaultVideoProfile = new EncoderProfiles.VideoProfile(MediaRecorder.VideoEncoder.H264, 1280, 720, 15, 600000, MediaCodecInfo.CodecProfileLevel.AVCProfileBaseline,
+//                EncoderProfiles.VideoProfile.YUV_420,  8 /* bitDepth */, EncoderProfiles.VideoProfile.HDR_NONE);
+//      }
       captureSize = new Size(defaultVideoProfile.getWidth(), defaultVideoProfile.getHeight());
     } else {
       @SuppressWarnings("deprecation")
