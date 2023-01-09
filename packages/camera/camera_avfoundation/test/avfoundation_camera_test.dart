@@ -122,7 +122,7 @@ void main() {
             lensDirection: CameraLensDirection.back,
             sensorOrientation: 0,
           ),
-          ResolutionPreset.high,
+          MediaSettings.low(),
         ),
         throwsA(
           isA<CameraException>()
@@ -181,7 +181,7 @@ void main() {
           lensDirection: CameraLensDirection.back,
           sensorOrientation: 0,
         ),
-        ResolutionPreset.high,
+        MediaSettings.low(),
       );
 
       // Act
@@ -227,7 +227,7 @@ void main() {
           lensDirection: CameraLensDirection.back,
           sensorOrientation: 0,
         ),
-        ResolutionPreset.high,
+        MediaSettings.low(),
       );
       final Future<void> initializeFuture = camera.initializeCamera(cameraId);
       camera.cameraEventStreamController.add(CameraInitializedEvent(
@@ -275,7 +275,7 @@ void main() {
           lensDirection: CameraLensDirection.back,
           sensorOrientation: 0,
         ),
-        ResolutionPreset.high,
+        MediaSettings.low(),
       );
       final Future<void> initializeFuture = camera.initializeCamera(cameraId);
       camera.cameraEventStreamController.add(CameraInitializedEvent(
@@ -434,7 +434,7 @@ void main() {
           lensDirection: CameraLensDirection.back,
           sensorOrientation: 0,
         ),
-        ResolutionPreset.high,
+        MediaSettings.low(),
       );
       final Future<void> initializeFuture = camera.initializeCamera(cameraId);
       camera.cameraEventStreamController.add(
