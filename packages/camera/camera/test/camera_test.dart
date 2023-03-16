@@ -405,6 +405,7 @@ void main() {
           )));
     });
 
+<<<<<<< HEAD
     test(
         'startVideoRecording() throws $CameraException when already streaming images',
         () async {
@@ -434,6 +435,8 @@ void main() {
           )));
     });
 
+=======
+>>>>>>> mainorigin
     test('getMaxZoomLevel() throws $CameraException when uninitialized',
         () async {
       final CameraController cameraController = CameraController(
@@ -1420,7 +1423,8 @@ void main() {
       cameraController.value = cameraController.value.copyWith(
           isPreviewPaused: false,
           deviceOrientation: DeviceOrientation.portraitUp,
-          lockedCaptureOrientation: DeviceOrientation.landscapeRight);
+          lockedCaptureOrientation:
+              Optional<DeviceOrientation>.of(DeviceOrientation.landscapeRight));
 
       await cameraController.pausePreview();
 
@@ -1726,6 +1730,12 @@ class MockCameraPlatform extends Mock
   Future<XFile> startVideoRecording(int cameraId,
           {Duration? maxVideoDuration}) =>
       Future<XFile>.value(mockVideoRecordingXFile);
+
+  @override
+  Future<void> startVideoCapturing(VideoCaptureOptions options) {
+    return startVideoRecording(options.cameraId,
+        maxVideoDuration: options.maxDuration);
+  }
 
   @override
   Future<void> lockCaptureOrientation(

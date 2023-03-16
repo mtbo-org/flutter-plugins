@@ -545,10 +545,145 @@ class Camera
             return;
         }
 
+<<<<<<< HEAD
         try {
             if (!pausedPreview) {
                 captureSession.setRepeatingRequest(
                         previewRequestBuilder.build(), cameraCaptureCallback, backgroundHandler);
+=======
+    if (activity == null) {
+      throw new IllegalStateException("No activity available!");
+    }
+    this.activity = activity;
+    this.enableAudio = enableAudio;
+    this.flutterTexture = flutterTexture;
+    this.dartMessenger = dartMessenger;
+    this.applicationContext = activity.getApplicationContext();
+    this.cameraProperties = cameraProperties;
+    this.cameraFeatureFactory = cameraFeatureFactory;
+    this.cameraFeatures =
+        CameraFeatures.init(
+            cameraFeatureFactory, cameraProperties, activity, dartMessenger, resolutionPreset);
+
+    // Create capture callback.
+    captureTimeouts = new CaptureTimeoutsWrapper(3000, 3000);
+    captureProps = new CameraCaptureProperties();
+    cameraCaptureCallback = CameraCaptureCallback.create(this, captureTimeouts, captureProps);
+
+    startBackgroundThread();
+  }
+
+  @Override
+  public void onConverged() {
+    takePictureAfterPrecapture();
+  }
+
+  @Override
+  public void onPrecapture() {
+    runPrecaptureSequence();
+  }
+
+  /**
+   * Updates the builder settings with all of the available features.
+   *
+   * @param requestBuilder request builder to update.
+   */
+  private void updateBuilderSettings(CaptureRequest.Builder requestBuilder) {
+    for (CameraFeature feature : cameraFeatures.getAllFeatures()) {
+      Log.d(TAG, "Updating builder with feature: " + feature.getDebugName());
+      feature.updateBuilder(requestBuilder);
+    }
+  }
+
+  private void prepareMediaRecorder(String outputFilePath) throws IOException {
+    Log.i(TAG, "prepareMediaRecorder");
+
+    if (mediaRecorder != null) {
+      mediaRecorder.release();
+    }
+
+    final PlatformChannel.DeviceOrientation lockedOrientation =
+        ((SensorOrientationFeature) cameraFeatures.getSensorOrientation())
+            .getLockedCaptureOrientation();
+
+    MediaRecorderBuilder mediaRecorderBuilder;
+
+    // TODO(camsim99): Revert changes that allow legacy code to be used when recordingProfile is null
+    // once this has largely been fixed on the Android side. https://github.com/flutter/flutter/issues/119668
+    EncoderProfiles recordingProfile = getRecordingProfile();
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && recordingProfile != null) {
+      mediaRecorderBuilder = new MediaRecorderBuilder(recordingProfile, outputFilePath);
+    } else {
+      mediaRecorderBuilder = new MediaRecorderBuilder(getRecordingProfileLegacy(), outputFilePath);
+    }
+
+    mediaRecorder =
+        mediaRecorderBuilder
+            .setEnableAudio(enableAudio)
+            .setMediaOrientation(
+                lockedOrientation == null
+                    ? getDeviceOrientationManager().getVideoOrientation()
+                    : getDeviceOrientationManager().getVideoOrientation(lockedOrientation))
+            .build();
+  }
+
+  @SuppressLint("MissingPermission")
+  public void open(String imageFormatGroup) throws CameraAccessException {
+    final ResolutionFeature resolutionFeature = cameraFeatures.getResolution();
+
+    if (!resolutionFeature.checkIsSupported()) {
+      // Tell the user that the camera they are trying to open is not supported,
+      // as its {@link android.media.CamcorderProfile} cannot be fetched due to the name
+      // not being a valid parsable integer.
+      dartMessenger.sendCameraErrorEvent(
+          "Camera with name \""
+              + cameraProperties.getCameraName()
+              + "\" is not supported by this plugin.");
+      return;
+    }
+
+    // Always capture using JPEG format.
+    pictureImageReader =
+        ImageReader.newInstance(
+            resolutionFeature.getCaptureSize().getWidth(),
+            resolutionFeature.getCaptureSize().getHeight(),
+            ImageFormat.JPEG,
+            1);
+
+    // For image streaming, use the provided image format or fall back to YUV420.
+    Integer imageFormat = supportedImageFormats.get(imageFormatGroup);
+    if (imageFormat == null) {
+      Log.w(TAG, "The selected imageFormatGroup is not supported by Android. Defaulting to yuv420");
+      imageFormat = ImageFormat.YUV_420_888;
+    }
+    imageStreamReader =
+        ImageReader.newInstance(
+            resolutionFeature.getPreviewSize().getWidth(),
+            resolutionFeature.getPreviewSize().getHeight(),
+            imageFormat,
+            1);
+
+    // Open the camera.
+    CameraManager cameraManager = CameraUtils.getCameraManager(activity);
+    cameraManager.openCamera(
+        cameraProperties.getCameraName(),
+        new CameraDevice.StateCallback() {
+          @Override
+          public void onOpened(@NonNull CameraDevice device) {
+            cameraDevice = new DefaultCameraDeviceWrapper(device);
+            try {
+              startPreview();
+              dartMessenger.sendCameraInitializedEvent(
+                  resolutionFeature.getPreviewSize().getWidth(),
+                  resolutionFeature.getPreviewSize().getHeight(),
+                  cameraFeatures.getExposureLock().getValue(),
+                  cameraFeatures.getAutoFocus().getValue(),
+                  cameraFeatures.getExposurePoint().checkIsSupported(),
+                  cameraFeatures.getFocusPoint().checkIsSupported());
+            } catch (CameraAccessException e) {
+              dartMessenger.sendCameraErrorEvent(e.getMessage());
+              close();
+>>>>>>> mainorigin
             }
 
             if (onSuccessCallback != null) {
